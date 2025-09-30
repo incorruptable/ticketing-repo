@@ -3,7 +3,6 @@ package com.ticketing;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IdleManager;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -17,7 +16,6 @@ import jakarta.mail.event.MessageCountAdapter;
 import jakarta.mail.event.MessageCountEvent;
 import jakarta.mail.Folder;
 import jakarta.mail.MessagingException;
-import jakarta.activation.*;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -27,7 +25,7 @@ import java.util.Properties;
 public class EmailUtil
 {
     //Handler for email importing to SQL Database
-    static String emailHandlerAddress = ""; //the email address the ticketing system works through. To be imported from database.
+    static String emailHandlerAddress = ""; //the email address the ticketing system works through. Call from yml or json.
     static String emailHandlerPassword = "";
     static String emailHost = "";
 

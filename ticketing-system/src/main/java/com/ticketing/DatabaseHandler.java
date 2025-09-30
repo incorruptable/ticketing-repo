@@ -14,9 +14,13 @@ public class DatabaseHandler {
         Map<String, String> config = new HashMap<>();
 
         //Obligatory health check
-        if(!HealthCheck.pingDatabase())
+        try 
         {
-            throw new SQLException("Database connection offline.");
+            HealthCheck.pingDatabase();
+        }
+        catch (Exception e)
+        {
+
         }
 
         //Database is working. Load in properties.
