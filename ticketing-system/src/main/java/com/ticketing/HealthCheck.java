@@ -1,8 +1,7 @@
 package com.ticketing;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.File;
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -21,29 +20,22 @@ public class HealthCheck
         Map<String, Object> health = new HashMap<>();
         
 
-        boolean dbOk = pingDatabase();
-        health.put("database", dbOk?"UP":"DOWN");
+        pingDatabase();
 
         boolean emailOk = checkEmailHandler();
+        health.put("email", emailOk?"UP":"DOWN");
     }
 
-    static boolean pingDatabase()
+    static void pingDatabase()
     {
-        try (Connection conn = DriverManager.getConnection("","","");
-        PreparedStatement stmt = conn.prepareStatement("SELECT 1");
-        ResultSet rs = stmt.executeQuery())
+        String currentDirectory = System.getProperty("user.dir");
+        File folder = new File(currentDirectory+"/Configs");
+        if(!folder.exists())
         {
-            if(rs.next()) //This is just for my understanding. Code wise, unnecessary. If rs didn't work, the if is unnecessary.
-            {
-                //Database is responding.
-                return true;
-            }
-            else return false; //This is just to get the compiler to stop complaining. This is functionally impossible.
-        } catch (SQLException e)
-        {
-            //Healthcheck failed. Prep to set things on fire.
-            return false;
+            folder.mkdirs();
         }
+
+        String healthCheckURL = "";
     }
 
     static boolean checkEmailHandler() throws SQLException, IOException
@@ -74,6 +66,7 @@ public class HealthCheck
         catch (Exception e)
         {
             //log in failed.
+            e.printStackTrace(); //to be adjusted to output to a log system.
             return false;
         }
     }
