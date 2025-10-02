@@ -20,11 +20,12 @@ create table Ticket
     clientID INTEGER NOT NULL REFERENCES Client(clientID),
     ticketID SERIAL PRIMARY KEY,
     ticketSender INTEGER NOT NULL REFERENCES Employee(employeeID),
-    TechnicianAssigned VARCHAR(255) NOT NULL,
+    TechnicianID INTEGER REFERENCES Technician(technicianID),
     ticketBody TEXT,
     createdAt TIMESTAMP DEFAULT NOW(),
     ticketStart TIMESTAMP WITHOUT TIME ZONE,
     ticketFinish TIMESTAMP WITHOUT TIME ZONE,
+    ticketStatus INTEGER REFERENCES TicketStatus(statusID),
     ticketDuration INTERVAL
 );
 
@@ -41,7 +42,30 @@ create table SystemConfig (
     configValue VARCHAR(255) NOT NULL
 );
 
-INSERT INTO SystemConfig(confiKey, configValues) VALUES 
+create table Technician (
+    technicianID SERIAL PRIMARY KEY,
+    technicianName VARCHAR(255) NOT NULL,
+    technicianEmail VARCHAR(255) NOT NULL,
+    role VARCHAR(50) NOT NULL
+);
+
+create table EmployeeRole (
+    roleID SERIAL PRIMARY KEY,
+    roleName VARCHAR(50) UNIQUE NOT NULL
+);
+
+create table UserRole(
+    userID INTEGER NOT NULL REFERENCES Employee(employeeID),
+    roleID INTEGER NOT NULL REFERENCES EmployeeRole(roleID),
+    PRIMARY KEY (userID, roleID)
+);
+
+create table TicketStatus(
+    statusID SERIAL PRIMARY KEY,
+    statusName VARCHAR(50) UNIQUE NOT NULL
+);
+
+INSERT INTO SystemConfig(configKey, configValues) VALUES 
 ('mail_user', ''),
 ('mail_pass',''),
 ('smtp_host','smtpserver'),

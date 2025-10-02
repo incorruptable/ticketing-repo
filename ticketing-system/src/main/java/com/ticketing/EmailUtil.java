@@ -58,7 +58,7 @@ public class EmailUtil
         }
     }
 
-    public static void emailListener(String[] args) throws SQLException, IOException
+    public static void emailListener() throws SQLException, IOException
     {
         Map<String,String> sysConfig = DatabaseHandler.loadSystemConfig();
 

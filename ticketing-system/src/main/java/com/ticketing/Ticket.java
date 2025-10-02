@@ -31,4 +31,14 @@ public class Ticket
     {
         return ticketNum;
     }
+
+    public String getTicketBody()
+    {
+        return ticketBody;
+    }
+
+    public int getTicketPriority()
+    {
+        return ticketPriority;
+    }
 }
