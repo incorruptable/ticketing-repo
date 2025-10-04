@@ -8,7 +8,7 @@ import jakarta.mail.Transport;
 
 public class Utils 
 {
-    static boolean emailLogin() throws Exception
+    static void emailLogin() throws Exception
     {
         //Checks if database email can log in. If not, prompts for credentials.
 
@@ -31,13 +31,11 @@ public class Utils
         {
             transport.connect(host, Integer.parseInt(port), username, password);
             //Connection check. Success means it's logged in.
-            return true;
         }
         catch (Exception e)
         {
             //log in failed.
             e.printStackTrace(); //to be adjusted to output to a log system.
-            return false;
         }
     }
 }
