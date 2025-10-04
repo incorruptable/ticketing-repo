@@ -13,3 +13,5 @@ export default function MyApp() {
         </div>
     );
 }
+
+//This is just a stub for now while I figure out what I want to do with the API

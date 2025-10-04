@@ -96,7 +96,7 @@ public class EmailUtil
                     for(Message message : messages) {
                         try {
                             System.out.println("Received: " + message.getSubject());
-                            Ticket ticket = new Ticket(message.getFrom().toString(), "", message.getContent().toString(), 0, 1);
+                            Ticket ticket = new Ticket(message.getFrom(), "", message.getContent().toString(), 0, 1);
                         } catch (MessagingException | IOException e) 
                         {
                             e.printStackTrace();
