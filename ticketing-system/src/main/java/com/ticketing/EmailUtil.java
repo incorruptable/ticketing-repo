@@ -24,6 +24,7 @@ import java.util.Properties;
 
 public class EmailUtil
 {
+    //TODO: Update to handle email credentials from file/SQL
     //Handler for email importing to SQL Database
     static String emailHandlerAddress = ""; //the email address the ticketing system works through. Call from yml or json.
     static String emailHandlerPassword = "";
@@ -58,6 +59,9 @@ public class EmailUtil
         }
     }
 
+
+    //TODO: Logic behind automatically creating new tickets needs to be done.
+    //Needs to run the check from the last time it made the connection.
     public static void emailListener() throws SQLException, IOException
     {
         Map<String,String> sysConfig = DatabaseHandler.loadSystemConfig();
@@ -92,7 +96,9 @@ public class EmailUtil
                     for(Message message : messages) {
                         try {
                             System.out.println("Received: " + message.getSubject());
-                        } catch (MessagingException e) {
+                            Ticket ticket = new Ticket(message.getFrom().toString(), "", message.getContent().toString(), 0, 1);
+                        } catch (MessagingException | IOException e) 
+                        {
                             e.printStackTrace();
                         }
                     }

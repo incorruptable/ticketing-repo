@@ -65,7 +65,7 @@ create table TicketStatus(
     statusName VARCHAR(50) UNIQUE NOT NULL
 );
 
-INSERT INTO SystemConfig(configKey, configValues) VALUES 
+INSERT INTO SystemConfig(configKey, configValue) VALUES 
 ('mail_user', ''),
 ('mail_pass',''),
 ('smtp_host','smtpserver'),

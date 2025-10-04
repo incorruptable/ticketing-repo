@@ -4,6 +4,9 @@ import java.util.logging.Logger;
 public class Main {
     //Initialize the logger.
     private static final Logger logger = Logger.getLogger(Main.class.getName());
+
+    //TODO: Rest of the logic. REST Endpoints.
+
     public static void main(String[] args) {
         //Initialize and run the email listener in a new thread.
         new Thread(() -> {

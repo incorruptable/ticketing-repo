@@ -20,7 +20,7 @@ public class DatabaseHandler {
         }
         catch (Exception e)
         {
-
+            e.printStackTrace();
         }
 
         //Database is working. Load in properties.
