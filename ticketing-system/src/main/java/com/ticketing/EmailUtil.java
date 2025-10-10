@@ -17,6 +17,9 @@ import jakarta.mail.event.MessageCountEvent;
 import jakarta.mail.Folder;
 import jakarta.mail.MessagingException;
 
+import java.io.FileReader;
+import java.io.IOException;
+
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -66,9 +69,9 @@ public class EmailUtil
     {
         Map<String,String> sysConfig = DatabaseHandler.loadSystemConfig();
 
-        String host = sysConfig.get("imap_host");
-        String username = sysConfig.get("mail_user");
-        String password = sysConfig.get("mail_pass");
+        String host = emailHost;
+        String username = emailHandlerAddress;
+        String password = emailHandlerPassword;
         String port = sysConfig.get("imap_port");
 
         Properties props = new Properties();

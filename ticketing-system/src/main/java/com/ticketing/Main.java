@@ -1,6 +1,11 @@
 package com.ticketing;
 import java.util.logging.Logger;
 
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@SpringBootApplication
 public class Main {
     //Initialize the logger.
     private static final Logger logger = Logger.getLogger(Main.class.getName());

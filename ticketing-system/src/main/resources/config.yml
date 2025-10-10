@@ -1,0 +1,38 @@
+email:
+  address: test@gmail.com
+  password: testMail
+  host: imap.gmail.com
+  port: 993
+  protocol: imaps
+  smtp_host: smtp.gmail.com
+  smtp_port: 465
+  use_ssl: true
+  use_tls: false
+  check_interval_seconds: 60
+
+app:
+  name: Ticketing System
+  version: 1.0
+  environment: development
+  Timezone:
+  base_url: http://localhost:8080
+
+logging:
+  level: INFO
+  file: logs/ticketing.logging
+  max_size_mb: 10
+  retention_days: 7
+
+health:
+  check_interval_seconds: 300
+  enable_email_healthcheck: true
+  enable_database_healthcheck: true
+
+auth:
+  enable_authentication: true
+  jwt_secret: "replace_with_secure_key"
+  token_expiry_minutes: 60
+  default_roles:
+  - user
+  - technician
+  - admin  
