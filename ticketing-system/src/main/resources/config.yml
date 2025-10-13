@@ -14,11 +14,15 @@ app:
   name: Ticketing System
   version: 1.0
   environment: development
-  Timezone:
+  timezone: UTC
+
   base_url: http://localhost:8080
-  password: T3stP4ssw0rd
+
+  host: localhost
   username: postgres
+  password: T3stP4ssw0rd
   port: 5432
+  database: ticketing_db
 
 logging:
   level: INFO

@@ -3,19 +3,14 @@ package com.ticketing;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IdleManager;
 
-import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 
 import jakarta.mail.*;
-import jakarta.mail.Message;
-import jakarta.mail.Session;
-import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.event.MessageCountAdapter;
 import jakarta.mail.event.MessageCountEvent;
-import jakarta.mail.Folder;
-import jakarta.mail.MessagingException;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -23,8 +18,14 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.Properties;
 
+import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import jakarta.mail.internet.AddressException;
+
+@Component
 public class EmailUtil
 {
     //TODO: Update to handle email credentials from file/SQL
@@ -32,6 +33,8 @@ public class EmailUtil
     static String emailHandlerAddress = ""; //the email address the ticketing system works through. Call from yml or json.
     static String emailHandlerPassword = "";
     static String emailHost = "";
+
+    private static final Logger log = LoggerFactory.getLogger(EmailUtil.class);
 
     public static void sendEmail(Session session, String toEmail, String subject, String body)
     {
@@ -56,9 +59,21 @@ public class EmailUtil
             
             Transport.send(msg);
         }
-        catch(Exception e)
+        catch(AddressException e)
         {
-            e.printStackTrace();
+            log.error("Recipient Invalid", e);
+        }
+        catch (SendFailedException e)
+        {
+            log.error("Error sending email", e);
+        }
+        catch (MessagingException e)
+        {
+            log.error("Messaging failure during send", e);
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            log.error("Unsupported encoding in sender address", e);
         }
     }
 
@@ -100,9 +115,13 @@ public class EmailUtil
                         try {
                             System.out.println("Received: " + message.getSubject());
                             Ticket ticket = new Ticket(message.getFrom(), "", message.getContent().toString(), 0, 1);
-                        } catch (MessagingException | IOException e) 
+                        } catch (MessagingException e) 
                         {
-                            e.printStackTrace();
+                            log.error("General messaging error in listener");
+                        }
+                        catch (IOException e)
+                        {
+                            log.error("Error reading message content or configuration file", e);
                         }
                     }
                 }
@@ -111,9 +130,21 @@ public class EmailUtil
             //Waiting for new messages here.
             idleManager.watch(inbox);
         }
-        catch (Exception e)
+        catch (NoSuchProviderException e)
         {
-            e.printStackTrace();
+            log.error("Email Listener Failure",e);
+        }
+        catch (AuthenticationFailedException e)
+        {
+            log.error("Invalid credentials. Check email credentials for IMAP connection", e);
+        }
+        catch (MessagingException e)
+        {
+            log.error("General messagin error in listener", e);
+        }
+        catch (RuntimeException e)
+        {
+            log.error("Unexpected runtime error in email listener", e);
         }
     }
 }
