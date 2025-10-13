@@ -16,6 +16,9 @@ app:
   environment: development
   Timezone:
   base_url: http://localhost:8080
+  password: T3stP4ssw0rd
+  username: postgres
+  port: 5432
 
 logging:
   level: INFO
