@@ -7,8 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DatabaseHandler {
 
+    private static final Logger log = LoggerFactory.getLogger(DatabaseHandler.class);
     public static Map<String, String> loadSystemConfig() throws SQLException, IOException
     {
         Map<String, String> config = new HashMap<>();
@@ -20,7 +24,7 @@ public class DatabaseHandler {
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            log.error("How did this show up? This is from the Database Healthcheck!",e);
         }
 
         //Database is working. Load in properties.

@@ -1,25 +1,28 @@
 package com.ticketing;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.IOException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import java.io.File;
-import java.io.IOException;
 
+import jakarta.mail.AuthenticationFailedException;
+import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
 import jakarta.mail.Transport;
-import java.util.HashMap;
+
 
 public class Utils 
 {
-    private static String emailHandlerAddress;
-    private static String emailHandlerPassword;
-    private static String emailHost;
-    private static String emailPort;
-    private static String emailProtocol;
+    private static final Logger log = LoggerFactory.getLogger(Utils.class);
 
     static void emailLogin() throws Exception
     {
@@ -44,10 +47,21 @@ public class Utils
             transport.connect(sysConfig.get("email_host"), smtpPort, sysConfig.get("email_address"), sysConfig.get("email_password"));
             //Connection check. Success means it's logged in.
         }
+        catch (NumberFormatException e)
+        {
+            log.error("Invalid email port in config.yml", e);
+        }
+        catch (AuthenticationFailedException e)
+        {
+            log.error("SMTP Authentication failed: ", e);
+        }
+        catch (MessagingException e)
+        {
+            log.error("SMTP or protocol error.", e);
+        }
         catch (Exception e)
         {
-            //log in failed.
-            e.printStackTrace(); //to be adjusted to output to a log system.
+            log.error("Unexpected error during email login attempt.",e);
         }
     }
 

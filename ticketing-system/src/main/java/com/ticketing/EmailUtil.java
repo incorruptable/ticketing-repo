@@ -12,7 +12,6 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.event.MessageCountAdapter;
 import jakarta.mail.event.MessageCountEvent;
 
-import java.io.FileReader;
 import java.io.IOException;
 
 import java.util.*;

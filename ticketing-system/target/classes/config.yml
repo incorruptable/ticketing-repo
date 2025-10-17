@@ -1,6 +1,6 @@
 email:
-  address: test@gmail.com
-  password: testMail
+  address:
+  password: 
   host: imap.gmail.com
   port: 993
   protocol: imaps
